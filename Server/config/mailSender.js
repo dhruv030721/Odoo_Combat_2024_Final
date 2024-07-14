@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+import nodemailer from "nodemailer"
 
 const mailSender = async (fromemail = ' -  <example@gmail.com>', toemail, title, body) => {
     try {
@@ -26,4 +26,4 @@ const mailSender = async (fromemail = ' -  <example@gmail.com>', toemail, title,
     }
 }
 
-module.exports = mailSender;
+export default mailSender

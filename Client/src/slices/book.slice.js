@@ -12,17 +12,17 @@ const bookSlice = createSlice({
     initialState,
     reducers: {
         addBookData: (state, action) => {
-            console.log(action.payload)
             state.bookData = action.payload
         },
         addIssuedBook: (state, action) => {
+    
             state.issuedBook = action.payload
         }
     }
 })
 
 
-export const { addBookData, logout } = bookSlice.actions;
+export const { addBookData, addIssuedBook } = bookSlice.actions;
 
 
 export default bookSlice.reducer;

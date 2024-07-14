@@ -14,17 +14,16 @@ const IssueBook = () => {
     const [issueDate, setIssueDate] = useState("");
 
     const handleIssue = async () => {
-        console.log("Book issued:", book.title, "to", userData.name, "on", issueDate);
         await toast.promise(
-            bookInstance.issueBook(book.ISBN, userData._id, issueDate),
+            bookInstance.issueBook(book._id, userData._id, issueDate, userData.email),
             {
                 loading: "Processing....",
                 success: (response) => {
-                    navigate('/');
+                    navigate('/home');
                     return `${response.data.message}`;
                 },
                 error: (error) => {
-                    return `${error.message}`;
+                    return `${error.response.data.message}`;
                 }
             }
         )
@@ -44,7 +43,7 @@ const IssueBook = () => {
                         <p className="text-gray-700 text-lg"><strong>User Name:</strong> {userData.name}</p>
                         <p className="text-gray-700 text-lg"><strong>User Email:</strong> {userData.email}</p>
                     </div>
-                    <div className="mb-6">
+                    <div className="mb-6 inline-block gap-x-5">
                         <label htmlFor="issue-date" className="block text-gray-700 mb-2">Select Issue Date:</label>
                         <input
                             type="date"

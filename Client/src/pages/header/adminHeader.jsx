@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/logo2.png";
 import { FaUserCircle } from "react-icons/fa";
 
-const Header = () => {
-    const { name, _id } = useSelector((state) => state.auth.userData);
+const AdminHeader = () => {
+    const { name } = useSelector((state) => state.auth.userData);
     const username = name.split(' ')[0];
 
     return (
@@ -20,7 +20,15 @@ const Header = () => {
                         </li>
                         <span className="text-gray-500 px-2">|</span>
                         <li>
-                            <Link to={`/IssuedBook/${_id}`} className="inline-block">Issued Books</Link>
+                            <Link to={`/admin/addbook`} className="inline-block">Add Book</Link>
+                        </li>
+                        <span className="text-gray-500 px-2">|</span>
+                        <li>
+                            <Link to={`/admin/updatebook`} className="inline-block">Update Book</Link>
+                        </li>
+                        <span className="text-gray-500 px-2">|</span>
+                        <li>
+                            <Link to={`/admin/removebook`} className="inline-block">Remove Book</Link>
                         </li>
                     </ul>
                 </nav>
@@ -33,4 +41,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default AdminHeader;

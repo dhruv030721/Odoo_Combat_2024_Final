@@ -2,7 +2,7 @@ import mongoose, { mongo } from "mongoose";
 
 const issueBookSchema = mongoose.Schema({
     book_id: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Book"
     },
     user_id: {
@@ -14,6 +14,10 @@ const issueBookSchema = mongoose.Schema({
     },
     due_date: {
         type: Date
+    },
+    status: {
+        type: String,
+        default: "Issued",
     }
 })
 

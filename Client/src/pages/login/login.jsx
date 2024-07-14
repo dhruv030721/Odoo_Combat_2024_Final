@@ -28,11 +28,15 @@ function Login() {
                     loading: "Processing....",
                     success: (response) => {
                         dispatch(login(response.data.data));
-                        navigate('/');
+                        if (response.data.data.role == "Admin") {
+                            navigate('/admin');
+                        } else {
+                            navigate('/home');
+                        }
                         return `${response.data.message}`;
                     },
                     error: (error) => {
-                        return `${error.message}`;
+                        return `${error.response.data.message}`;
                     }
                 }
             );

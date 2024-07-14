@@ -1,23 +1,26 @@
 import apiResponse from "../../utils/apiResponse.js";
+import cloudinary from "cloudinary";
+import { Book } from "../../model/index.js";
+
+// Initialize Cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 // File type validation function
 function isFileTypeSupported(type, supportedTypes) {
     return supportedTypes.includes(type);
 }
 
-
 // Function to upload file on Cloudinary
 async function uploadFileToCloudinary(file, folder, quality) {
-    const options = { folder, };
+    const options = { folder };
 
     if (quality) {
         options.quality = quality;
     }
-
-    // options.resource_type = "auto";
-
-    // Add Cloudinary background removal settings
-    // options.background_removal = "cloudinary_ai";
 
     options.resource_type = "auto";
     return await cloudinary.uploader.upload(file.tempFilePath, options);
@@ -25,14 +28,39 @@ async function uploadFileToCloudinary(file, folder, quality) {
 
 export const addBook = async (req, res) => {
     try {
-        const { title, ISBN, author, image, publisher, year, genre, quantity, newArrival, trending, section } = req.body;
+        console.log(req.body)
+        console.log(req.files);
+        const { title, ISBN, author, publisher, year, genre, quantity, newArrival, trending, section } = req.body;
 
-        // Create a new book instance
+        // Validation for required fields
+        if (!title || !ISBN || !author || !publisher || !year || !genre || !quantity) {
+            return apiResponse(res).error("All fields are required!", 400);
+        }
+
+        // Handle file upload
+        if (!req.files || !req.files.image) {
+            return apiResponse(res).error("Image file is required!", 400);
+        }
+
+        const { image } = req.files;
+
+        // Validation for supported file types
+        const supportedTypes = ["jpg", "jpeg", "png"];
+        const fileType = image.name.split(".").pop().toLowerCase();
+
+        if (!isFileTypeSupported(fileType, supportedTypes)) {
+            return apiResponse(res).error("File format not supported!", 400);
+        }
+
+        // Upload image to Cloudinary
+        const response = await uploadFileToCloudinary(image, "Bookwarden");
+
+        // Create a new book instance with the uploaded image URL
         const newBook = new Book({
             title,
             ISBN,
             author,
-            image,
+            image: response.secure_url,
             publisher,
             year,
             genre,
@@ -42,30 +70,10 @@ export const addBook = async (req, res) => {
             section,
         });
 
-        const { files } = req.files;
-
-        // Validation
-        const supportedTypes = ["jpg", "jpeg", "png"];
-        const fileType = files.name.split(".")[1].toLowerCase();
-
-        // If file is not supported
-        if (!isFileTypeSupported(fileType, supportedTypes)) {
-            return res.status(400).json({
-                success: false,
-                message: 'File format not supported!'
-            })
-        }
-
-
-        // If file is supported
-        const response = await uploadFileToCloudinary(files, "Practice");
-        console.log(response);
-
-        newBook.image = response.secure_url;
-
         const savedBook = await newBook.save();
         return apiResponse(res).success("Book added successfully!", true, 200);
     } catch (error) {
+        console.error("Error adding book:", error);
         return apiResponse(res).error("Internal Server Error", 500);
     }
 }

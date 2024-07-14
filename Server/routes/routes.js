@@ -4,7 +4,7 @@ const Router = express.Router();
 
 
 import { login, signup } from "../controller/authentication/index.js"
-import { getBooks, issueBook } from "../controller/book/index.js"
+import { getBooks, issueBook, getIssuedBook, addBook } from "../controller/book/index.js"
 
 
 Router.post('/auth/login', login);
@@ -14,7 +14,8 @@ Router.post('/auth/signup', signup);
 // Book Routes
 Router.get('/book/getbook', getBooks);
 Router.post('/book/issue_book', issueBook);
-
+Router.get('/book/get_issued_book/:user_id', getIssuedBook)
+Router.post('/book/add_book', addBook);
 
 export default Router;
 
