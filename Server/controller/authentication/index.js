@@ -1,3 +1,4 @@
-import login from "./login.js"
+import { login } from "./login.js";
+import { signup } from "./signup.js";
 
-export { login };
+export { login, signup };

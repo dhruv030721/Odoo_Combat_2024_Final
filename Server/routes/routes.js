@@ -1,22 +1,20 @@
 import express from "express";
-import apiResponse from "../utils/apiResponse.js";
 
 const Router = express.Router();
 
 
-// import { login } from "../controller/authentication/index.js"
+import { login, signup } from "../controller/authentication/index.js"
+import { getBooks, issueBook } from "../controller/book/index.js"
 
 
+Router.post('/auth/login', login);
+Router.post('/auth/signup', signup);
 
-// Router.get('/auth/login', login);
 
+// Book Routes
+Router.get('/book/getbook', getBooks);
+Router.post('/book/issue_book', issueBook);
 
 
 export default Router;
 
-
-
-
-// Router.get('/testing', async (req, res) => {
-//     apiResponse(res).success("Testing successful!", true, 200);
-// })

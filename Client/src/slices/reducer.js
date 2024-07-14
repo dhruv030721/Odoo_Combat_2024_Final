@@ -1,9 +1,9 @@
 import { combineReducers } from "@reduxjs/toolkit";
-// import { authSliceReducer, fitnessSliceReducer } from "../slices/index.js";
+import { authSliceReducer, bookSliceReducer } from "../slices/index.js";
 
 const rootReducer = combineReducers({
-    // auth: authSliceReducer, 
-    // fitness: fitnessSliceReducer
+    auth: authSliceReducer,
+    book: bookSliceReducer
 });
 
 export default rootReducer;

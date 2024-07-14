@@ -13,7 +13,7 @@ class ApiResponse {
             response.data = data;
         }
 
-        console.log(statusCode);
+        // console.log(statusCode);
 
         this.res.status(statusCode).json(response);
     }
