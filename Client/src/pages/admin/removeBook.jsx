@@ -2,13 +2,12 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addBookData } from '../../slices/book.slice';
 import bookInstance from '../../services/operations/book.js';
-import BookCard from '../../components/bookCard.jsx';
+import BookCardWithDelete from './bookcardwithdelete.jsx';
 import Loading from '../../components/loading.jsx';
 
-const Home = () => {
+const RemoveBook = () => {
     const dispatch = useDispatch();
     const bookData = useSelector((state) => state.book.bookData);
-    const userData = useSelector((state) => state.auth.userData);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -22,14 +21,14 @@ const Home = () => {
         })();
     }, [dispatch]);
 
+    const handleDelete = (bookId) => {
+        dispatch(addBookData(bookData.filter(book => book._id !== bookId)));
+    };
+
     // Ensure bookData is an array before filtering
     const filteredBooks = Array.isArray(bookData) ? bookData.filter((book) =>
         book.title.toLowerCase().includes(searchQuery.toLowerCase())
     ) : [];
-
-    const newArrivals = filteredBooks.filter((book) => book.newArrival);
-    const trendingBooks = filteredBooks.filter((book) => book.trending);
-    const recommendedBooks = filteredBooks.filter((book) => book.genre.toLowerCase() === userData.preferred_type.toLowerCase());
 
     if (loading) {
         return <Loading />;
@@ -48,26 +47,10 @@ const Home = () => {
             </div>
             <div className="flex flex-col">
                 <div>
-                    <h2 className="text-xl font-bold mb-4">Recommendations</h2>
+                    <h2 className="text-xl font-bold mb-4">Books</h2>
                     <div className="grid grid-cols-5 gap-4">
-                        {recommendedBooks.map((book) => (
-                            <BookCard key={book.ISBN} book={book} />
-                        ))}
-                    </div>
-                </div>
-                <div>
-                    <h2 className="text-xl font-bold mb-4">New Arrivals</h2>
-                    <div className="grid grid-cols-5 gap-4">
-                        {newArrivals.map((book) => (
-                            <BookCard key={book.ISBN} book={book} />
-                        ))}
-                    </div>
-                </div>
-                <div>
-                    <h2 className="text-xl font-bold mb-4">Trending</h2>
-                    <div className="grid grid-cols-5 gap-4">
-                        {trendingBooks.map((book) => (
-                            <BookCard key={book.ISBN} book={book} />
+                        {filteredBooks.map((book) => (
+                            <BookCardWithDelete key={book._id} book={book} onDelete={handleDelete} />
                         ))}
                     </div>
                 </div>
@@ -76,4 +59,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default RemoveBook;

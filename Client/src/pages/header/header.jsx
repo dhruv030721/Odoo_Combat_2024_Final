@@ -1,11 +1,17 @@
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/logo2.png";
 import { FaUserCircle } from "react-icons/fa";
 
 const Header = () => {
     const { name, _id } = useSelector((state) => state.auth.userData);
     const username = name.split(' ')[0];
+    const navigate = useNavigate();
+
+    const logoutHandler = () => {
+        navigate('/login');
+        window.location.reload();
+    }
 
     return (
         <header className="text-black py-4 px-16 font-poppins">
@@ -24,9 +30,14 @@ const Header = () => {
                         </li>
                     </ul>
                 </nav>
-                <div className="flex justify-center items-center">
-                    <FaUserCircle size={30} />
-                    <span className="text-black font-semibold text-lg ml-2">{username}</span>
+                <div className="flex items-center space-x-4">
+                    <Link to="/userprofile" className="flex items-center">
+                        <FaUserCircle size={30} />
+                        <span className="text-black font-semibold text-lg ml-2">{username}</span>
+                    </Link>
+                    <button className="bg-red-600 text-white font-bold py-2 px-4 rounded-lg shadow hover:bg-red-700 transition duration-200" onClick={logoutHandler}>
+                        Logout
+                    </button>
                 </div>
             </div>
         </header>

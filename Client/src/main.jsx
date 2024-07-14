@@ -5,7 +5,7 @@ import './index.css';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from './slices/store.js';
-import { AuthLayout, Login, Signup, IssueBook, IssuedBook, Home, AdminHome, AddBook } from "./pages/index.js";
+import { AuthLayout, Login, Signup, IssueBook, IssuedBook, Home, AdminHome, AddBook, RemoveBook, UserProfile } from "./pages/index.js";
 import { Toaster } from 'react-hot-toast';
 import { BookDetails } from "./components/index.js";
 
@@ -16,10 +16,13 @@ const router = createBrowserRouter(
         <Route path='/home' element={<Home />} />
         <Route path="/books/:isbn" element={<BookDetails />} />
         <Route path="/issue/:isbn" element={<IssueBook />} />
-        <Route path='/issued/:user_id' element={<IssuedBook />} /> {/* Fixed path */}
+        <Route path='/IssuedBook/:user_id' element={<IssuedBook />} />
+        <Route path='/userprofile' element={<UserProfile />} />
       </Route>
       <Route path='/admin' element={<AuthLayout><AdminHome /></AuthLayout>}>
         <Route path='addbook' element={<AddBook />} />
+        <Route path='home' element={<Home />} />
+        <Route path='removebook' element={<RemoveBook />} />
       </Route>
       <Route path='/login' element={<Login />} />
       <Route path='/signup' element={<Signup />} />

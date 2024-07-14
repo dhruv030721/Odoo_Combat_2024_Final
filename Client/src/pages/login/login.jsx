@@ -29,7 +29,7 @@ function Login() {
                     success: (response) => {
                         dispatch(login(response.data.data));
                         if (response.data.data.role == "Admin") {
-                            navigate('/admin');
+                            navigate('/admin/home');
                         } else {
                             navigate('/home');
                         }

@@ -4,9 +4,9 @@ import { Book } from "../../model/index.js";
 
 // Initialize Cloudinary
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
+    cloud_name: "dbmy60hnl",
+    api_key: "146773226516987",
+    api_secret: "KD3Tx-i8reLbOAWRB7v9HWZI2eA",
 });
 
 // File type validation function
@@ -28,8 +28,9 @@ async function uploadFileToCloudinary(file, folder, quality) {
 
 export const addBook = async (req, res) => {
     try {
-        console.log(req.body)
-        console.log(req.files);
+        console.log('Request body:', req.body);
+        console.log('Request files:', req.files);
+
         const { title, ISBN, author, publisher, year, genre, quantity, newArrival, trending, section } = req.body;
 
         // Validation for required fields
@@ -71,7 +72,7 @@ export const addBook = async (req, res) => {
         });
 
         const savedBook = await newBook.save();
-        return apiResponse(res).success("Book added successfully!", true, 200);
+        return apiResponse(res).success("Book added successfully!", savedBook, 200);
     } catch (error) {
         console.error("Error adding book:", error);
         return apiResponse(res).error("Internal Server Error", 500);

@@ -35,6 +35,9 @@ const bookSchema = mongoose.Schema({
     section: {
         type: String
     },
+    description: {
+        type: String
+    }
 })
 
 

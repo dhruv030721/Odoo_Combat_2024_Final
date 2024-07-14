@@ -32,6 +32,11 @@ class Book {
         const response = await apiConnector("POST", BookEndpoints.ADD_BOOK, formData, headers);
         return response;
     }
+
+    async removeBook(id) {
+        const response = await apiConnector("GET", BookEndpoints.REMOVE_BOOK + id);
+        return response;
+    }
 }
 
 const bookInstance = new Book();

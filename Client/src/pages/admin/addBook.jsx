@@ -1,5 +1,4 @@
 import { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import bookInstance from '../../services/operations/book'; // Adjust import as necessary
 import toast from 'react-hot-toast';
 
@@ -14,7 +13,6 @@ const AddBook = () => {
     const [quantity, setQuantity] = useState(0);
     const [newArrival, setNewArrival] = useState(false);
     const [trending, setTrending] = useState(false);
-    // const navigate = useNavigate();
 
     const handleImageChange = (e) => {
         setImage(e.target.files[0]);
